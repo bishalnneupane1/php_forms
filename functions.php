@@ -10,8 +10,15 @@ if(isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     
+    //preventing the sql injection
     $username = mysqli_real_escape_string($connection, $username);
     $password = mysqli_real_escape_string($connection, $password);
+    
+    //Hashing the password
+    $hashFormat = "$2y$10$"; 
+    $salt = "iusesomecrazystrings22";
+    $hashF_and_salt = $hashFormat . $salt;
+    $password = crypt($password,$hashF_and_salt); 
     
         //Here we are writing query in $query variable.
         $query = "INSERT INTO users(username,password) ";
